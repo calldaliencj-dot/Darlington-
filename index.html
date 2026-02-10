@@ -7,9 +7,8 @@
 body {
 margin: 0;
 font-family: Georgia, serif;
-background: linear-gradient(180deg, #160021, #000);
+background: linear-gradient(180deg,#160021,#000);
 color: #f7eaff;
-overflow-x: hidden;
 transition: background 1.5s;
 }
 
@@ -22,7 +21,7 @@ padding: 30px;
 }
 
 .card {
-max-width: 780px;
+max-width: 820px;
 width: 100%;
 background: rgba(255,255,255,0.07);
 border-radius: 26px;
@@ -31,13 +30,9 @@ text-align: center;
 box-shadow: 0 0 60px rgba(255,182,193,0.15);
 }
 
-.hidden { display: none; }
+.hidden { display:none; }
 
-h1 {
-font-size: 44px;
-color: #ffd4ee;
-margin-bottom: 10px;
-}
+h1 { font-size: 44px; color:#ffd4ee; }
 
 p {
 font-size: 18px;
@@ -45,9 +40,20 @@ line-height: 1.9;
 margin-top: 20px;
 }
 
+button {
+margin: 14px;
+padding: 14px 28px;
+border-radius: 22px;
+border: none;
+font-size: 16px;
+background: linear-gradient(145deg,#ff9bd3,#b18bff);
+cursor: pointer;
+color:#220022;
+}
+
 input {
 padding: 14px;
-width: 75%;
+width: 70%;
 max-width: 320px;
 border-radius: 14px;
 border: none;
@@ -57,24 +63,11 @@ background: rgba(255,255,255,0.15);
 color: white;
 }
 
-button {
-margin: 12px;
-padding: 14px 26px;
-border-radius: 22px;
-border: none;
-font-size: 16px;
-background: linear-gradient(145deg, #ff9bd3, #b18bff);
-color: #220022;
-cursor: pointer;
-}
-
-button:hover { opacity: 0.9; }
-
 .player {
 margin-top: 30px;
 padding: 20px;
 border-radius: 18px;
-background: linear-gradient(160deg, #200026, #000);
+background: linear-gradient(160deg,#200026,#000);
 }
 
 .bar {
@@ -88,46 +81,36 @@ margin-top: 12px;
 .progress {
 height: 100%;
 width: 0%;
-background: linear-gradient(90deg, #ff9acb, #caa0ff);
+background: linear-gradient(90deg,#ff9acb,#caa0ff);
 }
 
-.spark {
-position: fixed;
-pointer-events: none;
-font-size: 16px;
-animation: float 2.5s linear forwards;
-}
-
-@keyframes float {
-from { transform: translateY(0); opacity: 1; }
-to { transform: translateY(-140px); opacity: 0; }
-}
-
-.heart {
-position: fixed;
-font-size: 24px;
-cursor: pointer;
+.letter {
+text-align: left;
+margin-top: 40px;
+padding: 30px;
+background: rgba(0,0,0,0.4);
+border-radius: 20px;
 }
 
 .footer {
 margin-top: 120px;
 font-size: 12px;
 color: #aaa;
+text-align:center;
 }
 </style>
 </head>
 
 <body>
 
-<!-- PASSWORD RIDDLE -->
+<!-- RIDDLE -->
 <div class="screen" id="lock">
 <div class="card">
 <h1>A Riddle</h1>
 <p>
 I grow closer the more you think of me.<br>
 I exist only when you look forward.<br>
-I am not time, place, or thing.<br>
-I am not spoken, but I am felt.<br><br>
+I am not time, place, or thing.<br><br>
 Who am I to you?
 </p>
 <input id="answer" placeholder="Your answer">
@@ -141,23 +124,71 @@ Who am I to you?
 <div class="card">
 
 <h1>Hey You</h1>
-<p id="intro"></p>
+<p>
+This is a small place made gently.<br>
+Nothing to solve. Nothing to rush.
+</p>
 
 <div class="player">
 <p>Music for this moment</p>
-<button onclick="toggleMusic()">Play or Pause</button>
+<button onclick="toggleMusic()">Play / Pause</button>
 <div class="bar"><div class="progress" id="progress"></div></div>
 </div>
 
-<button onclick="newCompliment()">Make Me Smile</button>
-<button onclick="changeMood()">Change The Sky</button>
-<button onclick="spawnHeart()">Catch A Heart</button>
-
-<p id="compliment"></p>
-<p id="score">Hearts caught 0</p>
-<p id="secret"></p>
+<button onclick="showLetters()">Read something I wrote</button>
 
 <div class="footer">DARKINGTON TECH</div>
+</div>
+</div>
+
+<!-- LETTERS -->
+<div class="screen hidden" id="letters">
+<div class="card">
+
+<h1>Letters</h1>
+
+<div class="letter">
+<p>
+I didn’t make this to impress you.<br>
+I made it because sometimes feelings don’t fit into conversations.<br><br>
+There are things that feel too soft to say out loud.<br><br>
+So this is where I put them.<br><br>
+I like the way you exist.<br>
+Not loudly. Not desperately. Just naturally.<br><br>
+You make moments feel lighter without trying.
+</p>
+</div>
+
+<div class="letter">
+<p>
+I notice small things about you.<br><br>
+The way your mood changes a room.<br>
+The way you react before you think.<br><br>
+You feel real.<br>
+And that’s rare.<br><br>
+I just enjoy knowing you exist in the same world as me.
+</p>
+</div>
+
+<div class="letter">
+<p>
+This isn’t a request.<br>
+It isn’t an expectation.<br><br>
+If this makes you smile, that’s enough.<br><br>
+You were thought about — calmly, warmly, without urgency.
+</p>
+</div>
+
+<div class="letter">
+<p>
+If you ever wondered whether you mattered more than you realized —<br>
+you did.<br><br>
+And this little world exists simply because you crossed my mind<br>
+and stayed there.
+</p>
+</div>
+
+<button onclick="goBack()">Go back</button>
 
 </div>
 </div>
@@ -166,60 +197,18 @@ Who am I to you?
 <source src="https://files.catbox.moe/jxg8yr.mp3" type="audio/mpeg">
 </audio>
 
-<audio id="chime">
-<source src="https://files.catbox.moe/6w8x9n.mp3" type="audio/mpeg">
-</audio>
-
 <script>
 const music = document.getElementById("music")
 const progress = document.getElementById("progress")
-const chime = document.getElementById("chime")
-
-let hearts = 0
-let moods = [
-"linear-gradient(180deg,#160021,#000)",
-"linear-gradient(180deg,#001a33,#000)",
-"linear-gradient(180deg,#33001a,#000)",
-"linear-gradient(180deg,#00221f,#000)"
-]
-let moodIndex = 0
-
-let compliments = [
-"You have a calming presence",
-"Your smile feels effortless",
-"You make things feel warmer",
-"You are easy to think about",
-"You make quiet moments special",
-"You feel comforting without trying"
-]
 
 function unlock() {
 let v = document.getElementById("answer").value.trim().toLowerCase()
 if (v === "me") {
 document.getElementById("lock").classList.add("hidden")
 document.getElementById("world").classList.remove("hidden")
-typeIntro()
 } else {
-alert("Read it slowly again 💭")
+alert("Read it again slowly 💭")
 }
-}
-
-function type(el, text, speed) {
-el.innerHTML = ""
-let i = 0
-let t = setInterval(() => {
-el.innerHTML += text.charAt(i)
-i++
-if (i >= text.length) clearInterval(t)
-}, speed)
-}
-
-function typeIntro() {
-type(
-document.getElementById("intro"),
-"This is not something to figure out. It is something to feel. Click around. Play. Explore. This place exists only to be gentle and kind.",
-22
-)
 }
 
 function toggleMusic() {
@@ -231,52 +220,15 @@ music.ontimeupdate = () => {
 progress.style.width = (music.currentTime / music.duration) * 100 + "%"
 }
 
-function newCompliment() {
-document.getElementById("compliment").innerText =
-compliments[Math.floor(Math.random() * compliments.length)]
-playChime()
+function showLetters() {
+document.getElementById("world").classList.add("hidden")
+document.getElementById("letters").classList.remove("hidden")
 }
 
-function changeMood() {
-moodIndex = (moodIndex + 1) % moods.length
-document.body.style.background = moods[moodIndex]
-playChime()
+function goBack() {
+document.getElementById("letters").classList.add("hidden")
+document.getElementById("world").classList.remove("hidden")
 }
-
-function spawnHeart() {
-let h = document.createElement("div")
-h.className = "heart"
-h.innerHTML = "❤"
-h.style.left = Math.random() * window.innerWidth + "px"
-h.style.top = Math.random() * window.innerHeight + "px"
-document.body.appendChild(h)
-
-h.onclick = () => {
-hearts++
-document.getElementById("score").innerText = "Hearts caught " + hearts
-h.remove()
-playChime()
-if (hearts === 5) {
-document.getElementById("secret").innerText =
-"Secret unlocked. You are someone worth creating small worlds for."
-}
-}
-}
-
-function playChime() {
-chime.currentTime = 0
-chime.play()
-}
-
-document.addEventListener("click", e => {
-let s = document.createElement("div")
-s.className = "spark"
-s.innerHTML = "✦"
-s.style.left = e.clientX + "px"
-s.style.top = e.clientY + "px"
-document.body.appendChild(s)
-setTimeout(()=>s.remove(),2500)
-})
 </script>
 
 </body>
