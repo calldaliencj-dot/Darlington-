@@ -1,171 +1,207 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>For You</title>
+<title>A Small World</title>
 
 <style>
 body {
 margin: 0;
-padding: 0;
 font-family: Georgia, serif;
-color: lavender;
-background: radial-gradient(circle at top, #2a003d, #000000);
-transition: background 1.5s;
+background: linear-gradient(180deg, #160021, #000);
+color: #f7eaff;
 overflow-x: hidden;
+transition: background 1.5s;
 }
 
-.container {
-max-width: 760px;
-margin: auto;
+.screen {
+min-height: 100vh;
+display: flex;
+align-items: center;
+justify-content: center;
+padding: 30px;
+}
+
+.card {
+max-width: 780px;
+width: 100%;
+background: rgba(255,255,255,0.07);
+border-radius: 26px;
 padding: 40px;
 text-align: center;
+box-shadow: 0 0 60px rgba(255,182,193,0.15);
 }
 
-.hidden {
-display: none;
-}
+.hidden { display: none; }
 
 h1 {
-font-size: 42px;
-margin-bottom: 20px;
-animation: glow 3s infinite;
-}
-
-@keyframes glow {
-0% { color: plum; }
-50% { color: pink; }
-100% { color: lavender; }
+font-size: 44px;
+color: #ffd4ee;
+margin-bottom: 10px;
 }
 
 p {
 font-size: 18px;
-line-height: 1.8;
-margin-top: 30px;
-}
-
-button {
-margin: 10px;
-padding: 12px 22px;
-font-size: 16px;
-background: rgba(255,255,255,0.05);
-color: lavender;
-border: 1px solid lavender;
-border-radius: 10px;
-cursor: pointer;
+line-height: 1.9;
+margin-top: 20px;
 }
 
 input {
 padding: 14px;
-font-size: 16px;
-border-radius: 10px;
+width: 75%;
+max-width: 320px;
+border-radius: 14px;
 border: none;
+font-size: 16px;
 text-align: center;
-width: 70%;
-max-width: 300px;
-background: rgba(255,255,255,0.1);
-color: lavender;
+background: rgba(255,255,255,0.15);
+color: white;
 }
 
-.terminal {
-background: rgba(0,0,0,0.6);
-border-radius: 12px;
-padding: 25px;
-margin-top: 40px;
-font-family: monospace;
-font-size: 15px;
-color: #9effc1;
-text-align: left;
-min-height: 140px;
+button {
+margin: 12px;
+padding: 14px 26px;
+border-radius: 22px;
+border: none;
+font-size: 16px;
+background: linear-gradient(145deg, #ff9bd3, #b18bff);
+color: #220022;
+cursor: pointer;
 }
 
-.chapter {
-margin-top: 140px;
-}
+button:hover { opacity: 0.9; }
 
 .player {
-margin-top: 40px;
+margin-top: 30px;
 padding: 20px;
-border-radius: 16px;
-background: linear-gradient(145deg, #1a001f, #000000);
+border-radius: 18px;
+background: linear-gradient(160deg, #200026, #000);
+}
+
+.bar {
+height: 6px;
+background: rgba(255,255,255,0.2);
+border-radius: 6px;
+overflow: hidden;
+margin-top: 12px;
+}
+
+.progress {
+height: 100%;
+width: 0%;
+background: linear-gradient(90deg, #ff9acb, #caa0ff);
+}
+
+.spark {
+position: fixed;
+pointer-events: none;
+font-size: 16px;
+animation: float 2.5s linear forwards;
+}
+
+@keyframes float {
+from { transform: translateY(0); opacity: 1; }
+to { transform: translateY(-140px); opacity: 0; }
+}
+
+.heart {
+position: fixed;
+font-size: 24px;
+cursor: pointer;
 }
 
 .footer {
 margin-top: 120px;
 font-size: 12px;
-color: gray;
+color: #aaa;
 }
 </style>
 </head>
 
 <body>
 
-<!-- LOGIN -->
-<div class="container" id="login">
-<h1>Welcome</h1>
-<p>This space is gentle and private</p>
-
-<input type="password" id="pass" placeholder="Enter the word">
-<br><br>
-<button onclick="unlock()">Enter</button>
+<!-- PASSWORD RIDDLE -->
+<div class="screen" id="lock">
+<div class="card">
+<h1>A Riddle</h1>
+<p>
+I grow closer the more you think of me.<br>
+I exist only when you look forward.<br>
+I am not time, place, or thing.<br>
+I am not spoken, but I am felt.<br><br>
+Who am I to you?
+</p>
+<input id="answer" placeholder="Your answer">
+<br>
+<button onclick="unlock()">Reveal</button>
+</div>
 </div>
 
-<!-- CONTENT -->
-<div class="container hidden" id="content">
+<!-- WORLD -->
+<div class="screen hidden" id="world">
+<div class="card">
 
-<h1>A Letter That Stayed</h1>
+<h1>Hey You</h1>
+<p id="intro"></p>
 
 <div class="player">
-<button onclick="playMusic()">Play Music</button>
-<p>Now playing something soft and honest</p>
+<p>Music for this moment</p>
+<button onclick="toggleMusic()">Play or Pause</button>
+<div class="bar"><div class="progress" id="progress"></div></div>
 </div>
 
-<button onclick="chapterOne()">Chapter One</button>
-<button onclick="chapterTwo()">Chapter Two</button>
-<button onclick="chapterThree()">Chapter Three</button>
+<button onclick="newCompliment()">Make Me Smile</button>
+<button onclick="changeMood()">Change The Sky</button>
+<button onclick="spawnHeart()">Catch A Heart</button>
 
-<div class="terminal" id="terminal"></div>
-
-<div id="one" class="chapter"></div>
-<div id="two" class="chapter"></div>
-<div id="three" class="chapter"></div>
+<p id="compliment"></p>
+<p id="score">Hearts caught 0</p>
+<p id="secret"></p>
 
 <div class="footer">DARKINGTON TECH</div>
 
 </div>
+</div>
 
-<!-- AUDIO -->
-<audio id="music" loop>
+<audio id="music">
 <source src="https://files.catbox.moe/jxg8yr.mp3" type="audio/mpeg">
 </audio>
 
-<audio id="ambient" loop></audio>
+<audio id="chime">
+<source src="https://files.catbox.moe/6w8x9n.mp3" type="audio/mpeg">
+</audio>
 
 <script>
-function vibrate() {
-if (navigator.vibrate) navigator.vibrate(40)
-}
+const music = document.getElementById("music")
+const progress = document.getElementById("progress")
+const chime = document.getElementById("chime")
+
+let hearts = 0
+let moods = [
+"linear-gradient(180deg,#160021,#000)",
+"linear-gradient(180deg,#001a33,#000)",
+"linear-gradient(180deg,#33001a,#000)",
+"linear-gradient(180deg,#00221f,#000)"
+]
+let moodIndex = 0
+
+let compliments = [
+"You have a calming presence",
+"Your smile feels effortless",
+"You make things feel warmer",
+"You are easy to think about",
+"You make quiet moments special",
+"You feel comforting without trying"
+]
 
 function unlock() {
-if (document.getElementById("pass").value === "forever") {
-document.getElementById("login").classList.add("hidden")
-document.getElementById("content").classList.remove("hidden")
-terminalReveal()
-vibrate()
+let v = document.getElementById("answer").value.trim().toLowerCase()
+if (v === "me") {
+document.getElementById("lock").classList.add("hidden")
+document.getElementById("world").classList.remove("hidden")
+typeIntro()
 } else {
-alert("That is not it")
+alert("Read it slowly again 💭")
 }
-}
-
-function playMusic() {
-document.getElementById("music").play()
-vibrate()
-}
-
-function setAmbient(src) {
-let a = document.getElementById("ambient")
-a.pause()
-a.src = src
-a.play()
 }
 
 function type(el, text, speed) {
@@ -178,45 +214,69 @@ if (i >= text.length) clearInterval(t)
 }, speed)
 }
 
-function terminalReveal() {
-let text =
-"> initializing connection\n> loading memories\n> opening honest thoughts\n> access granted\n\n"
-type(document.getElementById("terminal"), text, 35)
+function typeIntro() {
+type(
+document.getElementById("intro"),
+"This is not something to figure out. It is something to feel. Click around. Play. Explore. This place exists only to be gentle and kind.",
+22
+)
 }
 
-function chapterOne() {
-document.body.style.background = "radial-gradient(circle at top, #2a003d, #000000)"
-setAmbient("https://files.catbox.moe/3j5y2k.mp3")
-vibrate()
-type(document.getElementById("one"), chapterOneText, 18)
-document.getElementById("one").scrollIntoView({behavior:"smooth"})
+function toggleMusic() {
+if (music.paused) music.play()
+else music.pause()
 }
 
-function chapterTwo() {
-document.body.style.background = "radial-gradient(circle at top, #001a33, #000000)"
-setAmbient("https://files.catbox.moe/8n2x9p.mp3")
-vibrate()
-type(document.getElementById("two"), chapterTwoText, 18)
-document.getElementById("two").scrollIntoView({behavior:"smooth"})
+music.ontimeupdate = () => {
+progress.style.width = (music.currentTime / music.duration) * 100 + "%"
 }
 
-function chapterThree() {
-document.body.style.background = "radial-gradient(circle at top, #330000, #000000)"
-setAmbient("https://files.catbox.moe/wq6t7m.mp3")
-vibrate()
-type(document.getElementById("three"), chapterThreeText, 18)
-document.getElementById("three").scrollIntoView({behavior:"smooth"})
+function newCompliment() {
+document.getElementById("compliment").innerText =
+compliments[Math.floor(Math.random() * compliments.length)]
+playChime()
 }
 
-var chapterOneText =
-"I never expected one person to occupy my thoughts this quietly and consistently. It did not arrive loudly or dramatically. It settled in slowly through small moments and passing conversations. I respect the life you already have, yet my feelings formed anyway. You have a presence that feels steady and calming. Your beauty is subtle and lasting. You leave an impression without asking for attention. Thinking about you has become something gentle and familiar."
+function changeMood() {
+moodIndex = (moodIndex + 1) % moods.length
+document.body.style.background = moods[moodIndex]
+playChime()
+}
 
-var chapterTwoText =
-"I want you in a way that feels patient and grounded. I want to understand your silences just as much as your words. I imagine listening without interrupting and caring without expectation. There is comfort in simply knowing someone exists. Even if nothing ever changes, what I feel is honest. It asks for nothing. It just exists quietly. Sometimes that is enough. Sometimes that is everything."
+function spawnHeart() {
+let h = document.createElement("div")
+h.className = "heart"
+h.innerHTML = "❤"
+h.style.left = Math.random() * window.innerWidth + "px"
+h.style.top = Math.random() * window.innerHeight + "px"
+document.body.appendChild(h)
 
-var chapterThreeText =
-"There are things I will never say directly, so they live here instead. You changed how I understand quiet affection and emotional presence. Knowing you has already shaped me in ways I did not anticipate. I hope you are treated gently by the world. I hope you feel safe and valued. This letter is not a request. It is a truth."
+h.onclick = () => {
+hearts++
+document.getElementById("score").innerText = "Hearts caught " + hearts
+h.remove()
+playChime()
+if (hearts === 5) {
+document.getElementById("secret").innerText =
+"Secret unlocked. You are someone worth creating small worlds for."
+}
+}
+}
 
+function playChime() {
+chime.currentTime = 0
+chime.play()
+}
+
+document.addEventListener("click", e => {
+let s = document.createElement("div")
+s.className = "spark"
+s.innerHTML = "✦"
+s.style.left = e.clientX + "px"
+s.style.top = e.clientY + "px"
+document.body.appendChild(s)
+setTimeout(()=>s.remove(),2500)
+})
 </script>
 
 </body>
