@@ -9,7 +9,7 @@ margin: 0;
 font-family: Georgia, serif;
 background: linear-gradient(180deg,#160021,#000);
 color: #f7eaff;
-transition: background 1.5s;
+transition: background 1.2s;
 }
 
 .screen {
@@ -84,19 +84,17 @@ width: 0%;
 background: linear-gradient(90deg,#ff9acb,#caa0ff);
 }
 
-.letter {
-text-align: left;
-margin-top: 40px;
-padding: 30px;
-background: rgba(0,0,0,0.4);
-border-radius: 20px;
+.reveal {
+margin-top: 25px;
+font-style: italic;
+color: #ffd4ee;
+display: none;
 }
 
 .footer {
 margin-top: 120px;
 font-size: 12px;
 color: #aaa;
-text-align:center;
 }
 </style>
 </head>
@@ -122,12 +120,8 @@ Who am I to you?
 <!-- WORLD -->
 <div class="screen hidden" id="world">
 <div class="card">
-
 <h1>Hey You</h1>
-<p>
-This is a small place made gently.<br>
-Nothing to solve. Nothing to rush.
-</p>
+<p>This place was made gently. Explore.</p>
 
 <div class="player">
 <p>Music for this moment</p>
@@ -135,61 +129,34 @@ Nothing to solve. Nothing to rush.
 <div class="bar"><div class="progress" id="progress"></div></div>
 </div>
 
-<button onclick="showLetters()">Read something I wrote</button>
+<button onclick="openLetters()">Read the letters</button>
 
 <div class="footer">DARKINGTON TECH</div>
 </div>
 </div>
 
-<!-- LETTERS -->
-<div class="screen hidden" id="letters">
+<!-- LETTER MENU -->
+<div class="screen hidden" id="menu">
 <div class="card">
-
 <h1>Letters</h1>
-
-<div class="letter">
-<p>
-I didn’t make this to impress you.<br>
-I made it because sometimes feelings don’t fit into conversations.<br><br>
-There are things that feel too soft to say out loud.<br><br>
-So this is where I put them.<br><br>
-I like the way you exist.<br>
-Not loudly. Not desperately. Just naturally.<br><br>
-You make moments feel lighter without trying.
-</p>
+<button onclick="openLetter(1)">Letter One</button>
+<button onclick="openLetter(2)">Letter Two</button>
+<button onclick="openLetter(3)">Letter Three</button>
+<button onclick="openLetter(4)">Letter Four</button>
+<button onclick="backToWorld()">Back</button>
+</div>
 </div>
 
-<div class="letter">
-<p>
-I notice small things about you.<br><br>
-The way your mood changes a room.<br>
-The way you react before you think.<br><br>
-You feel real.<br>
-And that’s rare.<br><br>
-I just enjoy knowing you exist in the same world as me.
-</p>
-</div>
+<!-- LETTER PAGES -->
+<div class="screen hidden" id="letter">
+<div class="card">
+<h1 id="letterTitle"></h1>
+<p id="letterText"></p>
 
-<div class="letter">
-<p>
-This isn’t a request.<br>
-It isn’t an expectation.<br><br>
-If this makes you smile, that’s enough.<br><br>
-You were thought about — calmly, warmly, without urgency.
-</p>
-</div>
+<button onclick="interact()">Touch this moment</button>
+<p class="reveal" id="reveal"></p>
 
-<div class="letter">
-<p>
-If you ever wondered whether you mattered more than you realized —<br>
-you did.<br><br>
-And this little world exists simply because you crossed my mind<br>
-and stayed there.
-</p>
-</div>
-
-<button onclick="goBack()">Go back</button>
-
+<button onclick="backToMenu()">Back to letters</button>
 </div>
 </div>
 
@@ -200,34 +167,76 @@ and stayed there.
 <script>
 const music = document.getElementById("music")
 const progress = document.getElementById("progress")
+const reveal = document.getElementById("reveal")
+
+let currentLetter = 0
+
+const letters = {
+1: {
+title: "Why This Exists",
+text: "I didn’t make this to impress you. I made it because sometimes feelings don’t fit into conversations.",
+reveal: "You were worth slowing down for."
+},
+2: {
+title: "What I Notice",
+text: "I notice small things about you. The quiet ones. The real ones.",
+reveal: "You feel rare in a world that rushes."
+},
+3: {
+title: "No Pressure",
+text: "This isn’t a request or an expectation. You don’t owe this anything.",
+reveal: "If you smile, that’s enough."
+},
+4: {
+title: "The Soft Ending",
+text: "There’s no dramatic ending here. Just honesty left gently.",
+reveal: "You mattered more than you realized."
+}
+}
 
 function unlock() {
 let v = document.getElementById("answer").value.trim().toLowerCase()
 if (v === "me") {
-document.getElementById("lock").classList.add("hidden")
-document.getElementById("world").classList.remove("hidden")
-} else {
-alert("Read it again slowly 💭")
-}
+lock.classList.add("hidden")
+world.classList.remove("hidden")
+} else alert("Read it again slowly 💭")
 }
 
 function toggleMusic() {
-if (music.paused) music.play()
-else music.pause()
+music.paused ? music.play() : music.pause()
 }
 
 music.ontimeupdate = () => {
 progress.style.width = (music.currentTime / music.duration) * 100 + "%"
 }
 
-function showLetters() {
-document.getElementById("world").classList.add("hidden")
-document.getElementById("letters").classList.remove("hidden")
+function openLetters() {
+world.classList.add("hidden")
+menu.classList.remove("hidden")
 }
 
-function goBack() {
-document.getElementById("letters").classList.add("hidden")
-document.getElementById("world").classList.remove("hidden")
+function backToWorld() {
+menu.classList.add("hidden")
+world.classList.remove("hidden")
+}
+
+function openLetter(n) {
+currentLetter = n
+menu.classList.add("hidden")
+letter.classList.remove("hidden")
+letterTitle.innerText = letters[n].title
+letterText.innerText = letters[n].text
+reveal.style.display = "none"
+}
+
+function interact() {
+reveal.innerText = letters[currentLetter].reveal
+reveal.style.display = "block"
+}
+
+function backToMenu() {
+letter.classList.add("hidden")
+menu.classList.remove("hidden")
 }
 </script>
 
