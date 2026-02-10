@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>For You</title>
+
+<style>
+body {
+margin: 0;
+padding: 0;
+background: radial-gradient(circle at top, #12001f, #000000);
+color: lavender;
+font-family: Georgia, serif;
+transition: background 1.5s;
+}
+
+.container {
+max-width: 750px;
+margin: auto;
+padding: 40px;
+text-align: center;
+}
+
+h1 {
+font-size: 40px;
+margin-bottom: 20px;
+animation: glow 3s infinite;
+}
+
+@keyframes glow {
+0% { color: plum; }
+50% { color: pink; }
+100% { color: lavender; }
+}
+
+button {
+margin: 10px;
+padding: 12px 22px;
+font-size: 16px;
+background: transparent;
+color: lavender;
+border: 1px solid lavender;
+border-radius: 8px;
+cursor: pointer;
+}
+
+input {
+padding: 12px;
+font-size: 16px;
+border-radius: 6px;
+border: none;
+text-align: center;
+}
+
+p {
+font-size: 18px;
+line-height: 1.7;
+margin-top: 30px;
+}
+
+.chapter {
+margin-top: 120px;
+}
+
+.hidden {
+display: none;
+}
+
+.footer {
+margin-top: 100px;
+font-size: 12px;
+color: gray;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container" id="lock">
+
+<h1>Private</h1>
+<p>This page is locked</p>
+
+<input type="password" id="password" placeholder="Enter password">
+<br><br>
+<button onclick="unlock()">Unlock</button>
+
+</div>
+
+<div class="container hidden" id="content">
+
+<h1>A Letter That Kept Growing</h1>
+
+<button onclick="chapterOne()">Chapter One</button>
+<button onclick="chapterTwo()">Chapter Two</button>
+<button onclick="chapterThree()">Chapter Three</button>
+
+<div id="one" class="chapter"></div>
+<div id="two" class="chapter"></div>
+<div id="three" class="chapter"></div>
+
+<div class="footer">DARKINGTON TECH</div>
+
+</div>
+
+<script>
+function vibrate() {
+if (navigator.vibrate) {
+navigator.vibrate(40)
+}
+}
+
+function unlock() {
+var pass = document.getElementById("password").value
+if (pass === "forever") {
+document.getElementById("lock").classList.add("hidden")
+document.getElementById("content").classList.remove("hidden")
+vibrate()
+} else {
+alert("Wrong password")
+}
+}
+
+function scrollToId(id) {
+document.getElementById(id).scrollIntoView({ behavior: "smooth" })
+}
+
+function typeText(el, text, speed) {
+el.innerHTML = ""
+let i = 0
+let t = setInterval(function() {
+el.innerHTML += text.charAt(i)
+i++
+if (i >= text.length) clearInterval(t)
+}, speed)
+}
+
+function chapterOne() {
+document.body.style.background = "radial-gradient(circle at top, #1a0033, #000000)"
+vibrate()
+typeText(
+document.getElementById("one"),
+chapterOneText,
+18
+)
+scrollToId("one")
+}
+
+function chapterTwo() {
+document.body.style.background = "radial-gradient(circle at top, #001a33, #000000)"
+vibrate()
+typeText(
+document.getElementById("two"),
+chapterTwoText,
+18
+)
+scrollToId("two")
+}
+
+function chapterThree() {
+document.body.style.background = "radial-gradient(circle at top, #330000, #000000)"
+vibrate()
+typeText(
+document.getElementById("three"),
+chapterThreeText,
+18
+)
+scrollToId("three")
+}
+
+var chapterOneText =
+"I never expected my thoughts to settle on one person the way they settled on you. It happened quietly and without warning. At first it was small moments and passing thoughts. Over time it became something deeper. I respect your relationship and the boundaries that exist, but my feelings grew anyway. You have a presence that feels calm and steady. Your beauty is not loud or demanding. It lingers. It stays. You leave impressions without trying. I think about you during ordinary moments when nothing special is happening and somehow everything feels different because of you."
+
+var chapterTwoText =
+"I want you in a way that is patient and careful. I want to understand your thoughts, your silences, and the things you keep inside. I imagine listening to you talk about your day and noticing the small changes in your voice. I imagine moments that feel peaceful instead of intense. Caring about you feels natural and unforced. I do not expect anything from you. I simply feel something real. Even if these feelings never change anything, they are still honest. They still matter. You matter."
+
+var chapterThreeText =
+"There are things I will never say out loud, so they live here instead. You changed the way I notice people. You changed the way I understand quiet affection. Even if our paths never move closer, knowing you has already shaped me. I hope you are treated gently by the world. I hope you feel valued and safe. This letter exists because you exist. That is enough for me."
+
+</script>
+
+</body>
+</html>
